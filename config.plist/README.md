@@ -32,8 +32,10 @@ Next, let's open ProperTree and edit our config.plist:
   * Pro tip: there's a `buildapp.command` utility in the `Scripts` folder that lets you turn ProperTree into a dedicated app in macOS
 * `ProperTree.bat`
   * For Windows
+  
+Once ProperTree is running, open your config.plist by pressing **Cmd/Ctrl + O** and selecting the `config.plist` file on your USB.
 
-Once opened, press **Cmd/Ctrl + Shift + R** and point it at your EFI/OC folder to perform a "Clean Snapshot":
+After the config is opened, press **Cmd/Ctrl + Shift + R** and point it at your EFI/OC folder to perform a "Clean Snapshot":
 
 * This will remove all the entries from the config.plist and then adds all your SSDTs, Kexts and Firmware drivers to the config
 * **Cmd/Ctrl + R** is another option that will add all your files as well but will leave entries disabled if they were set like that before, useful for when you're troubleshooting but for us not needed right now
