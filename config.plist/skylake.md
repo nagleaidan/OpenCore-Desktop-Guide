@@ -71,16 +71,13 @@ Settings relating to boot.efi patching and firmware fixes, ones we need to chang
 
 * **AvoidRuntimeDefrag**: YES
   * Fixes UEFI runtime services like date, time, NVRAM, power control, etc
-* **DevirtualiseMmio**: NO
-  * Reduces Stolen Memory Footprint, expands options for `slide=N` values and generally useful especially on HEDT and Xeon systems
-
 * **ProvideCustomSlide**: YES
   * If there's a conflicting slide value, this option forces macOS to use a pseudo-random value. Needed for those receiving `Only N/256 slide values are usable!` debug message
 * **RebuildAppleMemoryMap**: YES
   * Generates Memory Map compatible with macOS, can break on some laptop OEM firmwares so if you receive early boot failures disable this
 * **SetupVirtualMap**: YES
   * Fixes SetVirtualAddresses calls to virtual addresses, shouldn't be needed on Skylake and newer. Some firmware like Gigabyte may still require it, and will kernel panic without this
-**SyncRuntimePermissions**: YES
+* **SyncRuntimePermissions**: YES
   * Fixes alignment with MAT tables and required to boot Windows and Linux with MAT tables, also recommended for macOS. Mainly relevant for Skylake and newer
 
 ## DeviceProperties
@@ -169,21 +166,18 @@ Settings relating to the kernel, for us we'll be enabling `AppleCpuPmCfgLock`, `
   * Only needed when CFG-Lock can't be disabled in BIOS, Clover counterpart would be AppleIntelCPUPM. **Please verify you can disable CFG-Lock, most systems won't boot with it on so requiring use of this quirk**
 * **AppleXcpmCfgLock**: YES
   * Only needed when CFG-Lock can't be disabled in BIOS, Clover counterpart would be KernelPM. **Please verify you can disable CFG-Lock, most systems won't boot with it on so requiring use of this quirk**
-
 * **CustomSMBIOSGuid**: NO
   * Performs GUID patching for UpdateSMBIOSMode Custom mode. Usually relevant for Dell laptops
 * **DisableIoMapper**: YES
   * Needed to get around VT-D if either unable to disable in BIOS or needed for other operating systems, much better alternative to `dart=0` as SIP can stay on in Catalina
 * **DisableRtcChecksum**: NO
   * Prevents AppleRTC from writing to primary checksum (0x58-0x59), required for users who either receive BIOS reset or are sent into Safe mode after reboot/shutdown
-
 * **LapicKernelPanic**: NO
   * Disables kernel panic on AP core lapic interrupt, generally needed for HP systems. Clover equivalent is `Kernel LAPIC`
 * **PanicNoKextDump**: YES
   * Allows for reading kernel panics logs when kernel panics occur
 * **PowerTimeoutKernelPanic**: YES
   * Helps fix kernel panics relating to power changes with Apple drivers in macOS Catalina, most notably with digital audio.
-
 * **XhciPortLimit**: YES
   * This is actually the 15 port limit patch, don't rely on it as it's not a guaranteed solution for fixing USB. Please create a [USB map](https://dortania.github.io/USB-Map-Guide/) when possible.
 
@@ -262,7 +256,9 @@ Won't be covered here, see 8.6 of [Configuration.pdf](https://github.com/acidant
 
 ### Add
 
-4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14 (Booter Path, mainly used for UI Scaling)
+#### `4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14`
+
+Booter Path, mainly used for UI Scaling
 
 * **UIScale**:
   * `01`: Standard resolution(Clover equivalent is `0x28`)
@@ -272,7 +268,9 @@ Won't be covered here, see 8.6 of [Configuration.pdf](https://github.com/acidant
   * `00000000`: Syrah Black
   * `BFBFBF00`: Light Gray
 
-7C436110-AB2A-4BBB-A880-FE41995C9F82 (System Integrity Protection bitmask)
+#### `7C436110-AB2A-4BBB-A880-FE41995C9F82`
+
+System Integrity Protection bitmask
 
 * **General Purpose boot-args**:
 
@@ -291,15 +289,9 @@ Won't be covered here, see 8.6 of [Configuration.pdf](https://github.com/acidant
 | **nvda_drv_vrl=1** | Used for enabling Nvidia's Web Drivers on Maxwell and Pascal cards in Sierra and HighSierra |
 | **-wegnoegpu** | Used for disabling all other GPUs than the integrated Intel iGPU, useful for those wanting to run newer versions of macOS where their dGPU isn't supported |
 
-* **csr-active-config**: Settings for SIP, generally recommended to manually change this within Recovery partition with `csrutil` via the recovery partition
+* **csr-active-config**: Settings for 'System Integrity Protection' (SIP). It is generally recommended to change this with `csrutil` via the recovery partition.
 
-csr-active-config is set to `00000000` which enables System Integrity Protection. You can choose a number of other options to enable/disable sections of SIP. Some common ones are as follows:
-
-* `00000000` - SIP completely enabled
-* `03000000` - Allow unsigned kexts and writing to protected fs locations
-* `E7030000` - SIP completely disabled
-
-Recommended to leave enabled for best security practices
+csr-active-config by default is set to `00000000` which enables System Integrity Protection. You can choose a number of different values but overall we recommend keeping this enabled for best security practices. More info can be found in our troubleshooting page: [Disabling SIP](/troubleshooting/trooubleshooting.md#disabling-sip)
 
 * **prev-lang:kbd**: &lt;>
   * Needed for non-latin keyboards in the format of `lang-COUNTRY:keyboard`, recommended to keep blank though you can specify it(**Default in Sample config is Russian**):
@@ -461,6 +453,8 @@ For those having booting issues, please make sure to read the [Troubleshooting s
 So thanks to the efforts of Ramus, we also have an amazing tool to help verify your config for those who may have missed something:
 
 * [**Sanity Checker**](https://opencore.slowgeek.com)
+
+Note that this tool is neither made nor maintained by Dortania, any and all issues with this site should be sent here: [Sanity Checker Repo](https://github.com/rlerdorf/OCSanity)
 
 ## Intel BIOS settings
 

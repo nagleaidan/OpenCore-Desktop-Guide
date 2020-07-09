@@ -33,7 +33,9 @@ Next, let's open ProperTree and edit our config.plist:
 * `ProperTree.bat`
   * For Windows
 
-Once opened, press **Cmd/Ctrl + Shift + R** and point it at your EFI/OC folder to perform a "Clean Snapshot":
+Once ProperTree is running, open your config.plist by pressing **Cmd/Ctrl + O** and selecting the `config.plist` file on your USB.
+
+After the config is opened, press **Cmd/Ctrl + Shift + R** and point it at your EFI/OC folder to perform a "Clean Snapshot":
 
 * This will remove all the entries from the config.plist and then adds all your SSDTs, Kexts and Firmware drivers to the config
 * **Cmd/Ctrl + R** is another option that will add all your files as well but will leave entries disabled if they were set like that before, useful for when you're troubleshooting but for us not needed right now
@@ -74,7 +76,7 @@ Now comes the important part, selecting the configuration path. Each platform ha
 
 * 8XXX and 9XXX series, 2017-2019 era
 
-[Comet Lake](/config.plist/icelake.md)
+[Comet Lake](/config.plist/comet-lake.md)
 
 * 10XXX series, 2020 era
 
@@ -96,11 +98,11 @@ This section includes both enthusiast and server based hardware.
 
 ### AMD
 
-[Bulldozer/Jaguar](AMD/fx.md)
+[Bulldozer/Jaguar](/AMD/fx.md)
 
 * Google the series, AMD had bad naming schemes and let these generations live for too long.
 
-[Zen](AMD/zen.md)
+[Zen](/AMD/zen.md)
 
 * 1XXX, 2XXX, 3XXX series, 2017-2020 era
 * Note: Threadripper 3rd gen(39XX) are not supported, 1st and 2nd gen however are supported
